@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { AlarmClock, Bell, Check, ChevronDown, ChevronUp, Circle, Clock3, GripVertical, ListTodo, Plus, Trash2, X } from 'lucide-react';
 import './style.css';
 
-const API = 'http://localhost:8000/api';
+const API = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
 const pad = n => String(n).padStart(2, '0');
 function App() {
   const [tasks, setTasks] = useState([]), [text, setText] = useState(''), [filter, setFilter] = useState('all');
