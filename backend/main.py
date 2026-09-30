@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-DB = Path(__file__).with_name("todo.db")
+DB = Path("/tmp/todo.db")
 
 def connect():
     db = sqlite3.connect(DB)
@@ -24,8 +24,13 @@ async def lifespan(app):
     yield
 
 app = FastAPI(title="Little List", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], allow_methods=["*"], allow_headers=["*"])
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class NewTask(BaseModel):
     title: str = Field(min_length=1, max_length=240)
     reminder: str | None = None
